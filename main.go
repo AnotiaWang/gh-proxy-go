@@ -80,8 +80,14 @@ func main() {
 		handler(c, path)
 	})
 
-	log.Println("Server started at " + host + ":" + port)
-	router.Run(host + ":" + port)
+	log.Println("Starting server at " + host + ":" + port)
+
+	err := router.Run(host + ":" + port)
+
+	if err != nil {
+		log.Println("Failed to start server: ", err)
+		os.Exit(1)
+	}
 }
 
 func handler(c *gin.Context, u string) {
