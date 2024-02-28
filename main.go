@@ -88,7 +88,9 @@ func handler(c *gin.Context, u string) {
 	if !strings.HasPrefix(u, "http") {
 		u = "https://" + u
 	}
-	// u = strings.Replace(u, "s:/", "s://", 1) // Fix for double slash issue
+	if !strings.HasPrefix(u, "https://") && strings.HasPrefix(u, "https:/") {
+		u = strings.Replace(u, "https:/", "https://", 1)
+	}
 
 	passBy := false
 	match, _ := checkURL(u)
