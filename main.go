@@ -20,13 +20,14 @@ var (
 	jsdelivr = 0
 	// whiteList = []string{}
 	// blackList = []string{}
-	passList = []string{}
-	exp1     = regexp.MustCompile(`^(?:https?://)?github\.com/(?P<author>.+?)/(?P<repo>.+?)/(?:releases|archive)/.*$`)
-	exp2     = regexp.MustCompile(`^(?:https?://)?github\.com/(?P<author>.+?)/(?P<repo>.+?)/(?:blob|raw)/.*$`)
-	exp3     = regexp.MustCompile(`^(?:https?://)?github\.com/(?P<author>.+?)/(?P<repo>.+?)/(?:info|git-).*$`)
-	exp4     = regexp.MustCompile(`^(?:https?://)?raw\.(?:githubusercontent|github)\.com/(?P<author>.+?)/(?P<repo>.+?)/.+?/.+$`)
-	exp5     = regexp.MustCompile(`^(?:https?://)?gist\.(?:githubusercontent|github)\.com/(?P<author>.+?)/.+?/.+$`)
-	exp6     = regexp.MustCompile(`(\.com/.*?/.+?)/(.+?/)`)
+	passList    = []string{}
+	exp1        = regexp.MustCompile(`^(?:https?://)?github\.com/(?P<author>.+?)/(?P<repo>.+?)/(?:releases|archive)/.*$`)
+	exp2        = regexp.MustCompile(`^(?:https?://)?github\.com/(?P<author>.+?)/(?P<repo>.+?)/(?:blob|raw)/.*$`)
+	exp3        = regexp.MustCompile(`^(?:https?://)?github\.com/(?P<author>.+?)/(?P<repo>.+?)/(?:info|git-).*$`)
+	exp4        = regexp.MustCompile(`^(?:https?://)?raw\.(?:githubusercontent|github)\.com/(?P<author>.+?)/(?P<repo>.+?)/.+?/.+$`)
+	exp5        = regexp.MustCompile(`^(?:https?://)?gist\.(?:githubusercontent|github)\.com/(?P<author>.+?)/.+?/.+$`)
+	exp6        = regexp.MustCompile(`(\.com/.*?/.+?)/(.+?/)`)
+	allowAnyUrl bool
 )
 
 func main() {
@@ -35,6 +36,7 @@ func main() {
 
 	flag.StringVar(&host, "host", "0.0.0.0", "Host address")
 	flag.StringVar(&port, "port", "80", "Port number")
+	flag.BoolVar(&allowAnyUrl, "allow-any-url", false, "Do not check if the URL is a GitHub URL")
 	flag.Parse()
 
 	hostRegExp := regexp.MustCompile(`^\d+\.\d+\.\d+\.\d+$`)
@@ -80,6 +82,11 @@ func main() {
 		handler(c, path)
 	})
 
+	if allowAnyUrl {
+		log.Println("Mode: Allow any URL")
+	} else {
+		log.Println("Mode: GitHub URL only")
+	}
 	log.Println("Starting server at " + host + ":" + port)
 
 	err := router.Run(host + ":" + port)
@@ -107,7 +114,7 @@ func handler(c *gin.Context, u string) {
 				break
 			}
 		}
-	} else {
+	} else if !allowAnyUrl {
 		c.String(http.StatusForbidden, "Invalid input.")
 		return
 	}

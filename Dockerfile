@@ -1,4 +1,3 @@
-# 使用官方 Go 基础镜像，这里可以指定 Go 版本
 FROM golang:1.22-alpine AS builder
 
 # 设置工作目录
@@ -27,4 +26,4 @@ COPY --from=builder /app/main .
 EXPOSE 80
 
 # 运行可执行文件
-CMD ["./main"]
+ENTRYPOINT ["./main"]

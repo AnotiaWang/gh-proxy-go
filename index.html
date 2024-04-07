@@ -128,9 +128,7 @@
   <h1 style="margin-bottom: 50px">GitHub 文件加速</h1>
   <form action="./" method="get" style="padding-bottom: 40px" target="_blank" class="flex" onsubmit="toSubmit(event)">
     <label class="block" style="width: fit-content">
-      <input class="block url" name="q" type="text" placeholder="输入 GitHub 文件链接"
-        pattern="^((https|http):\/\/)?(github\.com\/.+?\/.+?\/(?:releases|archive|blob|raw|suites)|((?:raw|gist)\.(?:githubusercontent|github)\.com))\/.+$"
-        required>
+      <input class="block url" name="q" type="text" placeholder="输入 GitHub 文件链接" required>
       <div class="bar"></div>
     </label>
     <input class="block btn" type="submit" value="下载">
@@ -147,7 +145,8 @@
     </div>
   </form>
   <p style="position: sticky;top: calc(100% - 2.5em);">项目使用 Go 编写，开源于 <a style="color: #3294ea"
-      href="https://github.com/AnotiaWang/gh-proxy-go">GitHub</a>，改编自 <a style="color: #3294ea" href="https://github.com/hunshcn/gh-proxy">hunshcn/gh-proxy</a>
+      href="https://github.com/AnotiaWang/gh-proxy-go">GitHub</a>，改编自 <a style="color: #3294ea"
+      href="https://github.com/hunshcn/gh-proxy">hunshcn/gh-proxy</a>
   </p>
 </body>
 
